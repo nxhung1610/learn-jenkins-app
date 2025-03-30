@@ -23,7 +23,7 @@ pipeline{
                     agent {
                         docker {
                             image 'node:18-alpine'
-                            rcustomWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
+                            customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                         }
                     }
                     steps {
