@@ -1,18 +1,21 @@
 pipeline{
     agent any
     stages{
-        // stage("Build"){
-        //     agent {
-        //         docker {
-        //             image 'node:18-alpine'
-        //         }
-        //     }
-        //     steps {
-        //         sh '''
-        //             npm run build
-        //         '''
-        //     }
-        // }
+        stage("Build"){
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                }
+            }
+            steps {
+                sh '''
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
+            }
+        }
         stage ("Tests") {
             parallel {
                 stage ("Unit Tests") {
@@ -56,6 +59,21 @@ pipeline{
                     }
                 }
                 
+            }
+        }
+
+        stage ("Deploy") {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install vercel
+                    vercel --version
+                '''
             }
         }
         
