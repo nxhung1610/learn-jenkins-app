@@ -1,6 +1,8 @@
 pipeline{
     agent {
-        reuseNode true
+        node {
+            reuseNode true
+        }
     }
     stages{
         stage("Build"){
