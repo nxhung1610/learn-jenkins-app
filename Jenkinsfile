@@ -5,6 +5,7 @@ pipeline{
             agent {
                 docker {
                     image 'node:18-alpine'
+                    customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                 }
             }
             steps {
@@ -22,7 +23,7 @@ pipeline{
                     agent {
                         docker {
                             image 'node:18-alpine'
-                            reuseNode true
+                            rcustomWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                         }
                     }
                     steps {
@@ -42,7 +43,7 @@ pipeline{
                     agent {
                         docker {
                             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                            reuseNode true
+                            customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                         }
                     }
                     steps {
@@ -66,7 +67,7 @@ pipeline{
             agent {
                 docker {
                     image 'node:18-alpine'
-                    reuseNode true
+                    customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                 }
             }
             steps {
