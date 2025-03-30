@@ -1,9 +1,5 @@
 pipeline{
-    agent {
-        node {
-            customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
-        }
-    }
+    agent any
     stages{
         stage("Build"){
             agent {
@@ -18,6 +14,7 @@ pipeline{
                     npm run build
                     ls -la
                 '''
+                stash name: 'build-artifacts', includes: './build'
             }
         }
         stage ("Tests") {
@@ -75,6 +72,7 @@ pipeline{
                     npm install vercel -g
                     vercel --version
                 '''
+                unstash 'build-artifacts'
             }
         }
         
