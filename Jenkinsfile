@@ -1,11 +1,12 @@
 pipeline{
-    agent any
+    agent {
+        reuseNode true
+    }
     stages{
         stage("Build"){
             agent {
                 docker {
                     image 'node:18-alpine'
-                    customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                 }
             }
             steps {
@@ -23,7 +24,6 @@ pipeline{
                     agent {
                         docker {
                             image 'node:18-alpine'
-                            customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                         }
                     }
                     steps {
@@ -43,7 +43,6 @@ pipeline{
                     agent {
                         docker {
                             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                            customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                         }
                     }
                     steps {
@@ -67,12 +66,11 @@ pipeline{
             agent {
                 docker {
                     image 'node:18-alpine'
-                    customWorkspace "${JENKINS_HOME}/workspace/${JOB_NAME}/${BUILD_NUMBER}"
                 }
             }
             steps {
                 sh '''
-                    npm install vercel
+                    npm install vercel -g
                     vercel --version
                 '''
             }
