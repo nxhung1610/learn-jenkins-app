@@ -14,7 +14,7 @@ pipeline{
                     npm run build
                     ls -la
                 '''
-                stash name: 'build-artifacts', includes: './build/**/*'
+                stash includes: 'build/**/*', name: 'build-artifacts' 
             }
         }
         stage ("Tests") {
