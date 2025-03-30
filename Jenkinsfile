@@ -69,8 +69,8 @@ pipeline{
             }
             steps {
                 sh '''
-                    npm install vercel -g
-                    vercel --version
+                    npm install vercel
+                    node_modules/.bin/vercel --version
                 '''
                 unstash 'build-artifacts'
             }
