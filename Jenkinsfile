@@ -28,6 +28,7 @@ pipeline{
             steps {
                 sh '''
                     npm --version
+                    npm install
                     npm run build
                     ls -la
                 '''
