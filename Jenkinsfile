@@ -86,7 +86,7 @@ pipeline{
                 }
             }
             steps {
-                scripts {
+                script {
                     withVault(configuration: vaultConfig, vaultSecrets: testSecrets) {
                         sh '''
                             echo "$TEST"
