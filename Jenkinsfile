@@ -1,7 +1,7 @@
 // Define Vault configuration once
         def vaultConfig = [
             vaultUrl: env.VAULT_ADDR,
-            vaultCredentialId: 'jenkins-role'
+            vaultCredentialId: 'jenkin'
         ]
         
         // Group related secrets by their purpose
