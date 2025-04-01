@@ -15,7 +15,7 @@ pipeline{
     agent any
 
     environment {
-        VAULT_ADDR = 'http://localhost:8200'
+        VAULT_ADDR = 'http://127.0.0.1:8200'
     }
 
     stages{
