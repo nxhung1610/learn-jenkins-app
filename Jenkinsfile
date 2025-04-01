@@ -1,5 +1,23 @@
 pipeline{
     agent any
+
+    environment {
+        VAULT_ADDR = 'http://localhost:8200'
+    }
+    
+    // Define Vault configuration once
+    def vaultConfig = [
+        vaultUrl: env.VAULT_ADDR,
+        vaultCredentialId: 'jenkins-role'
+    ]
+    
+    // Group related secrets by their purpose
+    def testSecrets = [
+        [path: 'secret/dev-creds/git-pass', secretValues: [
+            [envVar: 'TEST', vaultKey: 'test-git-creds'],
+        ]]
+    ]
+
     stages{
         stage("Build"){
             agent {
@@ -68,7 +86,9 @@ pipeline{
                 }
             }
             steps {
+                withVault(configuration: vaultConfig, vaultSecrets: testSecrets)
                 sh '''
+                    echo "$TEST"
                     npm install vercel
                     node_modules/.bin/vercel --version
                 '''
