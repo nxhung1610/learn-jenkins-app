@@ -1,12 +1,4 @@
-pipeline{
-    agent any
-
-    environment {
-        VAULT_ADDR = 'http://localhost:8200'
-    }
-
-    options {
-        // Define Vault configuration once
+// Define Vault configuration once
         def vaultConfig = [
             vaultUrl: env.VAULT_ADDR,
             vaultCredentialId: 'jenkins-role'
@@ -19,7 +11,11 @@ pipeline{
             ]]
         ]
 
-        withVault(configuration: vaultConfig, vaultSecrets: testSecrets)
+pipeline{
+    agent any
+
+    environment {
+        VAULT_ADDR = 'http://localhost:8200'
     }
 
     stages{
@@ -90,12 +86,15 @@ pipeline{
                 }
             }
             steps {
-                
-                sh '''
-                    echo "$TEST"
-                    npm install vercel
-                    node_modules/.bin/vercel --version
-                '''
+                scripts {
+                    withVault(configuration: vaultConfig, vaultSecrets: testSecrets) {
+                        sh '''
+                            echo "$TEST"
+                            npm install vercel
+                            node_modules/.bin/vercel --version
+                        '''
+                    }
+                }
                 unstash 'build-artifacts'
             }
         }
