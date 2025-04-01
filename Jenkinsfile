@@ -1,15 +1,4 @@
-// Define Vault configuration once
-        def vaultConfig = [
-            vaultUrl: env.VAULT_ADDR,
-            vaultCredentialId: 'jenkin'
-        ]
-        
-        // Group related secrets by their purpose
-        def testSecrets = [
-            [path: 'secret/dev-creds/git-pass', secretValues: [
-                [envVar: 'TEST', vaultKey: 'test-git-creds'],
-            ]]
-        ]
+
 
 pipeline{
     agent any
@@ -56,25 +45,25 @@ pipeline{
                         }
                     }
                 }
-                stage ("E2E") {
-                    agent {
-                        docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                        }
-                    }
-                    steps {
-                        sh '''
-                            npm install serve
-                            node_modules/.bin/serve -s build & sleep 2
-                            npx playwright test --reporter=html
-                        '''
-                    }
-                    post {
-                        always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                        }
-                    }
-                }
+                // stage ("E2E") {
+                //     agent {
+                //         docker {
+                //             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                //         }
+                //     }
+                //     steps {
+                //         sh '''
+                //             npm install serve
+                //             node_modules/.bin/serve -s build & sleep 2
+                //             npx playwright test --reporter=html
+                //         '''
+                //     }
+                //     post {
+                //         always {
+                //             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                //         }
+                //     }
+                // }
                 
             }
         }
@@ -87,6 +76,17 @@ pipeline{
             }
             steps {
                 script {
+                    def vaultConfig = [
+                        vaultUrl: env.VAULT_ADDR,
+                        vaultCredentialId: 'jenkin'
+                    ]
+                    
+                    // Group related secrets by their purpose
+                    def testSecrets = [
+                        [path: 'secret/dev-creds/git-pass', secretValues: [
+                            [envVar: 'TEST', vaultKey: 'test-git-creds'],
+                        ]]
+                    ]
                     withVault(configuration: vaultConfig, vaultSecrets: testSecrets) {
                         sh '''
                             echo "$TEST"
