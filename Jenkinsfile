@@ -77,7 +77,7 @@ pipeline {
                             npm install vercel
                         '''
                         sh '''
-                            cat <<EOF > project.json
+                            cat <<EOF >> project.json
                             {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"}
                             EOF
                         '''
