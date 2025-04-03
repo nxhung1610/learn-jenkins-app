@@ -73,7 +73,7 @@ pipeline {
                             echo "$TEST"
                             npm install vercel
                             node_modules/.bin/vercel --version
-                            node_modules/.bin/vercel --prod
+                            node_modules/.bin/vercel build && node_modules/.bin/vercel deploy --prebuilt
                         '''
                     }
                 }
