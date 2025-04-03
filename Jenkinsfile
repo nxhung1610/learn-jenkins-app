@@ -74,7 +74,7 @@ pipeline {
                         sh '''
                             npm install vercel
                             echo {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"} > project.json
-                            node_modules/.bin/vercel deploy -local-config project.json --prod --prebuilt --token $VERCEL_TOKEN --yes
+                            node_modules/.bin/vercel deploy --local-config project.json --prod --prebuilt --token $VERCEL_TOKEN --yes
                         '''
                     }
                 }
