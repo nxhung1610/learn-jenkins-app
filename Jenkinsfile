@@ -63,7 +63,7 @@ pipeline {
                         [
                             path: 'secret/dev-creds/vercel', 
                             secretValues: [
-                                [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel-token']
+                                [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel_token']
                             ]
                         ]
                     ]
