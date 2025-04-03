@@ -81,7 +81,7 @@ pipeline {
                             {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"}
                             EOF
                         '''
-                        node_modules/.bin/vercel deploy --local-config project.json --prod --token $VERCEL_TOKEN --yes
+                        sh 'node_modules/.bin/vercel deploy --local-config project.json --prod --token $VERCEL_TOKEN --yes'
                     }
                 }
                 unstash 'build-artifacts'
