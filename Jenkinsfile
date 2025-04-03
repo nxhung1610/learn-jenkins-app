@@ -73,6 +73,7 @@ pipeline {
                             echo "$TEST"
                             npm install vercel
                             node_modules/.bin/vercel --version
+                            vercel --prod
                         '''
                     }
                 }
