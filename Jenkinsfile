@@ -64,7 +64,7 @@ pipeline {
                             path: 'secret/dev-creds/vercel', 
                             secretValues: [
                                 [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel_token'],
-                                [envVar: 'VERCEL_PROJECT_ID', vaultKey: 'vercel_project_id']
+                                [envVar: 'VERCEL_PROJECT_ID', vaultKey: 'vercel_project_id'],
                                 [envVar: 'VERCEL_ORG_ID', vaultKey: 'vercel_org_id']
                             ]
                         ]
