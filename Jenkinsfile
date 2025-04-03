@@ -72,6 +72,8 @@ pipeline {
 
                     withVault(configuration: vaultConfig, vaultSecrets: secrets) {
                         sh '''
+                            echo $VERCEL_PROJECT_ID
+                            echo $VERCEL_ORG_ID
                             npm install vercel
                             echo '{"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"}' > project.json
                             node_modules/.bin/vercel deploy --local-config project.json --prod --token $VERCEL_TOKEN --yes
