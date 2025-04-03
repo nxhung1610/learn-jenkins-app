@@ -68,7 +68,7 @@ pipeline {
                         ]
                     ]
 
-                    withVault(configuration: vaultConfig, vaultSecrets: testSecrets) {
+                    withVault(configuration: vaultConfig, vaultSecrets: secrets) {
                         sh '''
                             npm install vercel
                             node_modules/.bin/vercel --version
