@@ -15,7 +15,6 @@ pipeline {
                     npm run build
                     ls -la
                 '''
-                stash includes: 'build/**/*', name: 'build-artifacts' 
             }
         }
         stage ("Tests") {
@@ -84,7 +83,6 @@ pipeline {
                         sh 'node_modules/.bin/vercel deploy --local-config project.json --prod --token $VERCEL_TOKEN --yes'
                     }
                 }
-                unstash 'build-artifacts'
             }
         }
         
