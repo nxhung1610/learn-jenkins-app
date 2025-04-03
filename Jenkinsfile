@@ -59,20 +59,20 @@ pipeline {
                         vaultUrl: 'http://host.docker.internal:8200'
                     ]
                     
-                    def testSecrets = [
+                    def secrets = [
                         [
-                            path: 'secret/dev-creds/git-pass', 
+                            path: 'secret/dev-creds/vercel', 
                             secretValues: [
-                                [envVar: 'TEST', vaultKey: 'test-git-creds']
+                                [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel-token']
                             ]
                         ]
                     ]
 
                     withVault(configuration: vaultConfig, vaultSecrets: testSecrets) {
                         sh '''
-                            echo "$TEST"
                             npm install vercel
                             node_modules/.bin/vercel --version
+                            node_modules/.bin/vercel -token $VERCEL_TOKEN
                             node_modules/.bin/vercel deploy --prebuilt
                         '''
                     }
