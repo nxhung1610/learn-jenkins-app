@@ -72,7 +72,7 @@ pipeline {
                         sh '''
                             npm install vercel
                             node_modules/.bin/vercel --version
-                            node_modules/.bin/vercel -token $VERCEL_TOKEN
+                            node_modules/.bin/vercel --token $VERCEL_TOKEN
                             node_modules/.bin/vercel deploy --prebuilt
                         '''
                     }
