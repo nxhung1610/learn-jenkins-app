@@ -86,10 +86,12 @@ pipeline {
             }
         }
     }
-
     post {
         always {
             cleanWs()
+        }
+        cleanup{
+            deleteDir()
         }
     }
     
