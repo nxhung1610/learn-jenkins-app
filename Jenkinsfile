@@ -72,9 +72,7 @@ pipeline {
                         '''
                         sh '''
                             mkdir .vercel
-                            cat <<EOF > .vercel/project.json
-                            {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"}
-                            EOF
+                            echo {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"} > .vercel/project.json
                         '''
                         sh 'node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes'
                     }
