@@ -17,8 +17,7 @@ pipeline {
                 '''
             }
         }
-        stage ("Tests") {
-            stage ("Unit Tests") {
+        stage ("Unit Tests") {
                     agent {
                         docker {
                             image 'node:18-alpine'
@@ -37,7 +36,6 @@ pipeline {
                         }
                     }
                 }
-        }
 
         stage ("Deploy") {
             agent {
