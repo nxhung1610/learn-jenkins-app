@@ -18,7 +18,7 @@ pipeline {
             }
         }
         stage ("Unit Tests") {
-                    agent {
+             agent {
                         docker {
                             image 'node:18-alpine'
                         }
@@ -34,8 +34,8 @@ pipeline {
                         always {
                            junit 'jest-results/junit.xml'
                         }
-                    }
-                }
+            }           
+        }
 
         stage ("Deploy") {
             agent {
@@ -71,11 +71,12 @@ pipeline {
                             npm install vercel
                         '''
                         sh '''
-                            cat <<EOF >> project.json
+                            mkdir .vercel
+                            cat <<EOF > .vercel/project.json
                             {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"}
                             EOF
                         '''
-                        sh 'node_modules/.bin/vercel deploy --local-config project.json --prod --token $VERCEL_TOKEN --yes'
+                        sh 'node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes'
                     }
                 }
             }
@@ -84,9 +85,6 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-        cleanup{
-            deleteDir()
         }
     }
     
