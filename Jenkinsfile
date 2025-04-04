@@ -37,48 +37,48 @@ pipeline {
             }           
         }
 
-        stage ("Deploy") {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                }
-            }
-            steps {
-                script {
-                    def vaultConfig = [
-                        disableChildPoliciesOverride: false, 
-                        skipSslVerification: true, 
-                        timeout: 60, 
-                        vaultCredentialId: 'test-role-credential', 
-                        vaultUrl: 'http://host.docker.internal:8200'
-                    ]
+        // stage ("Deploy") {
+        //     agent {
+        //         docker {
+        //             image 'node:18-alpine'
+        //         }
+        //     }
+        //     steps {
+        //         script {
+        //             def vaultConfig = [
+        //                 disableChildPoliciesOverride: false, 
+        //                 skipSslVerification: true, 
+        //                 timeout: 60, 
+        //                 vaultCredentialId: 'test-role-credential', 
+        //                 vaultUrl: 'http://host.docker.internal:8200'
+        //             ]
                     
-                    def secrets = [
-                        [
-                            path: 'secret/dev-creds/vercel', 
-                            secretValues: [
-                                [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel_token'],
-                                [envVar: 'VERCEL_PROJECT_ID', vaultKey: 'vercel_project_id'],
-                                [envVar: 'VERCEL_ORG_ID', vaultKey: 'vercel_org_id']
-                            ]
-                        ]
-                    ]
+        //             def secrets = [
+        //                 [
+        //                     path: 'secret/dev-creds/vercel', 
+        //                     secretValues: [
+        //                         [envVar: 'VERCEL_TOKEN', vaultKey: 'vercel_token'],
+        //                         [envVar: 'VERCEL_PROJECT_ID', vaultKey: 'vercel_project_id'],
+        //                         [envVar: 'VERCEL_ORG_ID', vaultKey: 'vercel_org_id']
+        //                     ]
+        //                 ]
+        //             ]
 
-                    withVault(configuration: vaultConfig, vaultSecrets: secrets) {
-                        sh '''
-                            echo $VERCEL_PROJECT_ID
-                            echo $VERCEL_ORG_ID
-                            npm install vercel
-                        '''
-                        sh '''
-                            mkdir .vercel
-                            echo {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"} > .vercel/project.json
-                        '''
-                        sh 'node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes'
-                    }
-                }
-            }
-        }
+        //             withVault(configuration: vaultConfig, vaultSecrets: secrets) {
+        //                 sh '''
+        //                     echo $VERCEL_PROJECT_ID
+        //                     echo $VERCEL_ORG_ID
+        //                     npm install vercel
+        //                 '''
+        //                 sh '''
+        //                     mkdir .vercel
+        //                     echo {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"} > .vercel/project.json
+        //                 '''
+        //                 sh 'node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes'
+        //             }
+        //         }
+        //     }
+        // }
     }
     post {
         always {
