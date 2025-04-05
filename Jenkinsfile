@@ -21,7 +21,7 @@ pipeline {
                 echo "Building ${env.JOB_NAME}..."
                 sh '''
                     npm --version
-                    npm ci
+                    npm install
                     npm run build
                     ls -la
                 '''
