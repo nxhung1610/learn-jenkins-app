@@ -69,12 +69,10 @@ pipeline {
                             echo $VERCEL_PROJECT_ID
                             echo $VERCEL_ORG_ID
                             npm install vercel
+                            export VERCEL_PROJECT_ID=$VERCEL_PROJECT_ID
+                            export VERCEL_ORG_ID=$VERCEL_ORG_ID
+                            node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes
                         '''
-                        sh '''
-                            mkdir .vercel
-                            echo {"projectId":"$VERCEL_PROJECT_ID","orgId":"$VERCEL_ORG_ID"} > .vercel/project.json
-                        '''
-                        sh 'node_modules/.bin/vercel deploy --prod --token $VERCEL_TOKEN --yes'
                     }
                 }
             }
