@@ -1,23 +1,17 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18-alpine'
+        }
+    }
 
     stages{
         stage("Build"){
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                }
-            }
             steps {
                 sh 'npm install'
             }
         }
         stage ("Unit Tests") {
-             agent {
-                        docker {
-                            image 'node:18-alpine'
-                        }
-                    }
                     steps {
                         sh '''
                             npm run build
@@ -33,11 +27,6 @@ pipeline {
         }
 
         stage ("Deploy") {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                }
-            }
             steps {
                 script {
                     def vaultConfig = [
