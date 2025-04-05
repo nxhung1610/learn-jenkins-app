@@ -14,7 +14,7 @@ pipeline {
                 }
             }
             steps {
-                 // Clean before build
+                // Clean before build
                 cleanWs()
                 // We need to explicitly checkout from SCM here
                 checkout scm
