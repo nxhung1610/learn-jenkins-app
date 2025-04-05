@@ -19,12 +19,11 @@ pipeline {
                 // We need to explicitly checkout from SCM here
                 checkout scm
                 echo "Building ${env.JOB_NAME}..."
-                // sh '''
-                //     npm --version
-                //     npm install
-                //     npm run build
-                //     ls -la
-                // '''
+                sh '''
+                    npm --version
+                    npm ci
+                    ls -la
+                '''
             }
         }
         stage ("Unit Tests") {
