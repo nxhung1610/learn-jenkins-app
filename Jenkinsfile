@@ -1,12 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+        npm 'node:18-alpine'
+    }
+
     stages{
         stage("Build"){
             steps {
-                sh '''
-                apt-get update && apt-get install npm
-                '''
+                sh 'npm install'
             }
         }
         stage ("Unit Tests") {
